@@ -4,18 +4,21 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Breakout_Game
 {
-    class Player : GameObject
+    class Player : IGameObject
     {
         Texture2D texture;
-        Vector2 position;
+        public Vector2 position;
+        public Rectangle hitBox;
         float speed = 50;
         float dir = 0;
         float minX =72;
         float maxX = 232;
+
         public void Initialize(Texture2D texture, Vector2 position)
         {
             this.texture = texture;
             this.position = position;
+            hitBox = new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale));
         }
 
         public void Update(GameTime gameTime)
@@ -56,7 +59,8 @@ namespace Breakout_Game
 
         public void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(texture, new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale)), Color.White);
+            hitBox.Location = position.ToPoint();
+            sprite.Draw(texture, hitBox, Color.White);
         }
     }
 }
