@@ -97,20 +97,26 @@ namespace Breakout_Game
 
         private void ConstructBricks(Texture2D brickTexture)
         {
-            bricks = new Brick[7, 11];
+            bricks = new Brick[8, 11];
             Vector2 nextPos = position;
-            for (int row = 0; row < 7; row++)
+            Color[] colors = new Color[] { Color.Red, Color.Orange, Color.Green, Color.Yellow };
+            int nextColor = 0;
+            for (int row = 0; row < 8; row++)
             {
                 for (int column = 0; column < 11; column++)
                 {
                     Brick brick = new Brick();
-                    brick.Initialize(brickTexture, nextPos);
+                    brick.Initialize(brickTexture, nextPos,colors[nextColor]);
                     bricks[row, column] = brick;
                     nextPos.X += brickTexture.Width * Global.scale;
 
                 }
                 nextPos.Y += brickTexture.Height * Global.scale;
                 nextPos.X = position.X;
+                if((row + 1) % 2 == 0)
+                {
+                    nextColor++;
+                }
             }
         }
 
@@ -132,11 +138,13 @@ namespace Breakout_Game
     {
         Vector2 position;
         Texture2D texture;
+        Color color;
 
-        public void Initialize(Texture2D texture, Vector2 position)
+        public void Initialize(Texture2D texture, Vector2 position,Color color)
         {
             this.texture = texture;
             this.position = position;
+            this.color = color;
         }
         public void Update(GameTime gameTime)
         {
@@ -145,7 +153,7 @@ namespace Breakout_Game
 
         public void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(texture, new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale)), Color.White);
+            sprite.Draw(texture, new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale)), color);
         }
     }
 
