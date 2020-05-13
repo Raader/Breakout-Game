@@ -8,13 +8,16 @@ namespace Breakout_Game
         Vector2 position;
         Texture2D texture;
         Color color;
+        public Rectangle HitBox;
 
         public void Initialize(Texture2D texture, Vector2 position,Color color)
         {
             this.texture = texture;
             this.position = position;
             this.color = color;
+            HitBox = new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale));
         }
+
         public void Update(GameTime gameTime)
         {
 
@@ -22,7 +25,7 @@ namespace Breakout_Game
 
         public void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(texture, new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale)), color);
+            sprite.Draw(texture, HitBox, color);
         }
     }
 }

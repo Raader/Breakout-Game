@@ -2,6 +2,6 @@
 {
     class Global
     {
-        public static int scale = 2;
+        public static int scale = 4;
     }
 }

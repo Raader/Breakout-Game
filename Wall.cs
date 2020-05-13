@@ -6,18 +6,19 @@ namespace Breakout_Game
     class Wall : IGameObject
     {
         Vector2 position;
-        Brick[,] bricks;
+        Texture2D brickTexture;
+        public Brick[,] bricks;
 
         public void Initialize(Texture2D brickTexture, Vector2 position)
         {
             //init
             this.position = position;
+            this.brickTexture = brickTexture;
             //construct bricks
-            ConstructBricks(brickTexture);
-
+            ConstructBricks();
         }
-
-        private void ConstructBricks(Texture2D brickTexture)
+       
+        public void ConstructBricks()
         {
             bricks = new Brick[8, 11];
             Vector2 nextPos = position;
@@ -51,6 +52,10 @@ namespace Breakout_Game
         {
             foreach(Brick brick in bricks)
             {
+                if(brick == null)
+                {
+                    continue;
+                }
                 brick.Draw(sprite);
             }
         }
