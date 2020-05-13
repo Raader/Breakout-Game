@@ -15,7 +15,11 @@ namespace Breakout_Game
         Player player;
         Wall wall;
         Ball ball;
+        Texture2D playerTexture;
+        Texture2D brickTexture;
         Texture2D ballTexture;
+        SpriteFont font;
+        int score = 0;
 
         public Game1()
         {
@@ -36,27 +40,29 @@ namespace Breakout_Game
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             gameArea = Content.Load<Texture2D>("Breakoutbackground");
-            Texture2D playerTexture = Content.Load<Texture2D>("breakoutplayer");
-            Texture2D brickTexture = Content.Load<Texture2D>("breakoutbrick");
+            playerTexture = Content.Load<Texture2D>("breakoutplayer");
+            brickTexture = Content.Load<Texture2D>("breakoutbrick");
             ballTexture = Content.Load<Texture2D>("breakoutball2");
+            font = Content.Load<SpriteFont>("myfont");
+            InitGame();
+        }
+
+        private void InitGame()
+        {
+            score = 0;
             player = new Player();
             wall = new Wall();
             ball = new Ball();
             player.Initialize(playerTexture, new Vector2(75 * Global.scale, 156 * Global.scale));
             wall.Initialize(brickTexture, new Vector2(36 * Global.scale, 48 * Global.scale));
-            ball.Initialize(new Vector2(50 , 140) * Global.scale, ballTexture, new Rectangle(new Point(36 * Global.scale, 24 * Global.scale), new Point(87 * Global.scale,151 * Global.scale)));
+            ball.Initialize(new Vector2(50, 140) * Global.scale, ballTexture, new Rectangle(new Point(36 * Global.scale, 24 * Global.scale), new Point(87 * Global.scale, 151 * Global.scale)));
             ball.outOfBounds += ResetGame;
         }
-
 
         void ResetGame()
         {
             Console.WriteLine("reset");
-            wall.ConstructBricks();
-            player.position = new Vector2(75 * Global.scale, 156 * Global.scale);
-            ball = new Ball();
-            ball.Initialize(new Vector2(50 , 140) * Global.scale, ballTexture, new Rectangle(new Point(36 * Global.scale, 24 * Global.scale), new Point(87 * Global.scale, 151 * Global.scale)));
-            ball.outOfBounds += ResetGame;
+            InitGame();
         }
 
         protected override void UnloadContent()
@@ -99,6 +105,7 @@ namespace Breakout_Game
                         Random random = new Random();
                         Vector2 normal = random.Next(0, 2) == 0 ? new Vector2(0, 1) : new Vector2(1, 0);
                         ball.Bounce(Physics.GetNormal(ball.hitBox.Center,brick.HitBox));
+                        score++;
                         return;
                     }
                 }
@@ -113,6 +120,7 @@ namespace Breakout_Game
             player.Draw(spriteBatch);
             wall.Draw(spriteBatch);
             ball.Draw(spriteBatch);
+            spriteBatch.DrawString(font, score.ToString(), new Vector2(48, 32) * Global.scale, Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

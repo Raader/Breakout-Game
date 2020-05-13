@@ -11,7 +11,7 @@ namespace Breakout_Game
         public Action outOfBounds;
         Rectangle bounds;
         Vector2 direction = new Vector2(1, -1);
-        float speed = 120;
+        float speed = 60 * Global.scale;
 
         public void Initialize(Vector2 position, Texture2D texture, Rectangle bounds)
         {
@@ -25,7 +25,8 @@ namespace Breakout_Game
         public void Update(GameTime gameTime)
         {
             position += speed * (float)gameTime.ElapsedGameTime.TotalSeconds * direction;
-            if(position.ToPoint().X >= bounds.Right)
+            hitBox.Location = position.ToPoint();
+            if (hitBox.Right >= bounds.Right)
             {
                 Bounce(new Vector2(-1,0));
             }
@@ -46,12 +47,12 @@ namespace Breakout_Game
         public void Bounce(Vector2 normal)
         {
             direction = Vector2.Reflect(direction, normal);
-            speed += 5;
+            //speed += 5;
         }
 
         public void Draw(SpriteBatch sprite)
         {
-            hitBox.Location = position.ToPoint();
+            
             sprite.Draw(texture, hitBox, Color.White);
         }
     }
