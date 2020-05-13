@@ -72,7 +72,7 @@ namespace Breakout_Game
             // TODO: Add your update logic here
             if (player.hitBox.Intersects(ball.hitBox))
             {
-                ball.Bounce(new Vector2(0, -1));
+                ball.Bounce(Physics.GetNormal(ball.hitBox.Center,player.hitBox));
             }
             else
             {
@@ -98,7 +98,7 @@ namespace Breakout_Game
                         Console.WriteLine("break");
                         Random random = new Random();
                         Vector2 normal = random.Next(0, 2) == 0 ? new Vector2(0, 1) : new Vector2(1, 0);
-                        ball.Bounce(normal);
+                        ball.Bounce(Physics.GetNormal(ball.hitBox.Center,brick.HitBox));
                         return;
                     }
                 }
@@ -126,4 +126,33 @@ namespace Breakout_Game
 
     }
 
+    class Physics
+    {
+        public static Vector2 GetNormal(Point position, Rectangle hitBox)
+        {
+            if(position.Y >= hitBox.Y && position.Y <= hitBox.Bottom)
+            {
+                if(position.X < hitBox.Center.X)
+                {
+                    return new Vector2(-1, 0);
+                }
+                else if (position.X > hitBox.Center.X)
+                {
+                    return new Vector2(1, 0);
+                }
+            }
+            else if(position.X >= hitBox.X && position.X <= hitBox.Right)
+            {
+                if(position.Y < hitBox.Center.Y)
+                {
+                    return new Vector2(0, -1);
+                }
+                else if( position.Y > hitBox.Center.Y)
+                {
+                    return new Vector2(0, 1);
+                }
+            }
+            return new Vector2(0, 0);
+        }
+    }
 }
