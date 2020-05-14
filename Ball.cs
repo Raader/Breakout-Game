@@ -5,6 +5,7 @@ namespace Breakout_Game
 {
     class Ball : IGameObject
     {
+        Random random;
         Vector2 position;
         Texture2D texture;
         public Rectangle hitBox;
@@ -19,6 +20,7 @@ namespace Breakout_Game
             this.texture = texture;
             this.bounds = bounds;
             hitBox = new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale));
+            random = new Random();
             direction.Normalize();
         }
 
@@ -45,8 +47,26 @@ namespace Breakout_Game
         }
 
         public void Bounce(Vector2 normal)
-        {
-            direction = Vector2.Reflect(direction, normal);
+        {           
+            int ranI = random.Next(0, 101);
+            if(ranI < 60)
+            {
+                direction = Vector2.Reflect(direction, normal);
+            }
+            else 
+            {
+                int i = random.Next(0, 2) == 0 ? 1 : -1;
+                if (normal.X == 0)
+                {
+                    normal.X = i;
+                }
+                else
+                {
+                    normal.Y = i;
+                }
+                normal.Normalize();
+                direction = normal;
+            }
             //speed += 5;
         }
 
