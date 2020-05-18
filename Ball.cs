@@ -13,12 +13,13 @@ namespace Breakout_Game
         Vector2 direction = new Vector2(1, -1);
         float speed = 60 * Global.scale;
 
-        public void Initialize(Vector2 position, Texture2D texture, Rectangle bounds)
+        public void Initialize(Vector2 position, Texture2D texture, Rectangle bounds, int dir = 1)
         {
             this.position = position;
             this.texture = texture;
             this.bounds = bounds;
             hitBox = new Rectangle(position.ToPoint(), new Point(texture.Width * Global.scale, texture.Height * Global.scale));
+            direction.X = dir;
             direction.Normalize();
         }
 

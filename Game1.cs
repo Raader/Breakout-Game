@@ -20,9 +20,11 @@ namespace Breakout_Game
         Texture2D ballTexture;
         SpriteFont font;
         int score = 0;
+        Random random;
 
         public Game1()
         {
+            random = new Random();
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = Global.scale * 160;
@@ -53,9 +55,10 @@ namespace Breakout_Game
             player = new Player();
             wall = new Wall();
             ball = new Ball();
+            int ballX = random.Next(50, 100);
             player.Initialize(playerTexture, new Vector2(75 * Global.scale, 156 * Global.scale));
             wall.Initialize(brickTexture, new Vector2(36 * Global.scale, 48 * Global.scale));
-            ball.Initialize(new Vector2(50, 140) * Global.scale, ballTexture, new Rectangle(new Point(36 * Global.scale, 24 * Global.scale), new Point(87 * Global.scale, 151 * Global.scale)));
+            ball.Initialize(new Vector2(ballX, 140) * Global.scale, ballTexture, new Rectangle(new Point(36 * Global.scale, 24 * Global.scale), new Point(87 * Global.scale, 151 * Global.scale)));
             ball.outOfBounds += ResetGame;
         }
 
