@@ -9,7 +9,7 @@ namespace Breakout_Game
         Texture2D texture;
         public Vector2 position;
         public Rectangle hitBox;
-        float speed = 50 * Global.scale;
+        float speed = 30 * Global.scale;
         float dir = 0;
         float minX =36 * Global.scale;
         float maxX = 116 * Global.scale;
